@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+ASGI_APPLICATION = "myproject.asgi.application"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -26,7 +27,7 @@ SECRET_KEY = 'django-insecure-q#qj*+(5)-l3&wjruij(muj*^5=-yju(m=ftd!2lw)fzrqo5%n
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+AUTH_USER_MODEL = "user_control.CustomUser"
 
 # Application definition
 
@@ -39,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'user_control',
-    'Meschat'
+    'channels'
 ]
 
 MIDDLEWARE = [
