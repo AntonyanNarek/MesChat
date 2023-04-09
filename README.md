@@ -11,7 +11,7 @@
 
 # Ссылки
 
-[Таск менеджер Todoist](https://todoist.com/app/project/2309484653)
+[Trello]([https://todoist.com/app/project/2309484653](https://trello.com/b/iTJ6RSBX/untitled-board))
 
 
 [Miro](https://miro.com/app/board/uXjVMbdqiiE=/)
