@@ -13,7 +13,7 @@
 
 [Trello](https://trello.com/b/iTJ6RSBX/untitled-board)
 
-[Figma maket]()
+[Figma maket](https://www.figma.com/file/VyGW8ECnnXEXN4RI97NOZL/MesChat?node-id=1-18&t=rHojKdiQia62k1aC-0)
 
 [Miro](https://miro.com/app/board/uXjVMbdqiiE=/)
 
