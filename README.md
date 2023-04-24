@@ -13,6 +13,7 @@
 
 [Trello](https://trello.com/b/iTJ6RSBX/untitled-board)
 
+[Figma maket](https://www.figma.com/file/qmr9HJ3dFJYlgXLzhxy9hQ/Untitled?node-id=0%3A1&t=6Xf8LkzYrzQSgo2L-1)
 
 [Miro](https://miro.com/app/board/uXjVMbdqiiE=/)
 
@@ -23,3 +24,4 @@
 [Диаграммы](https://vk.com/away.php?utf=1&to=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1AFmhSYDaAcNUoYBtvwD3YUATv9Ftnd_M%3Fusp%3Dshare_link)
 
 [Курсовая](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/kursovaya_tp.pdf)
+
