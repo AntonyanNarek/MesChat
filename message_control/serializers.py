@@ -20,6 +20,10 @@ class MessageSerializer(serializers.ModelSerializer):
         model = Message
         fields = "__all__"
 
-    def get_user_data(self, obj):
+    def get_sender_data(self, obj):
         from user_control.serializers import UserProfileSerializer
-        return UserProfileSerializer(obj.sender.user_profile)
+        return UserProfileSerializer(obj.sender.user_profile).data
+
+    def get_receiver_data(self, obj):
+        from user_control.serializers import UserProfileSerializer
+        return UserProfileSerializer(obj.receiver.user_profile).data

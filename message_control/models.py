@@ -12,6 +12,9 @@ class Message(models.Model):
     def __str__(self):
         return f"сообщение между {self.sender.username} и {self.receiver.username}"
 
+    class Meta:
+        ordering = ("-created_at",)
+
 
 class MessageAttachment(models.Model):
     message = models.ForeignKey(Message, related_name="message_attachments", on_delete=models.CASCADE)
