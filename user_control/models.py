@@ -43,6 +43,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.username
 
+    class Meta:
+        ordering = ("created_at",)
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, related_name="user_profile", on_delete=models.CASCADE)
@@ -55,6 +58,9 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    class Meta:
+        ordering = ("created_at",)
 
 
 class Jwt(models.Model):
