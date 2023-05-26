@@ -181,3 +181,20 @@ button {
     transform: rotateZ(360deg);
   }
 }
+
+.errorHolder {
+  background-color: red;
+  color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 10px;
+    cursor: pointer;
+  }
+}

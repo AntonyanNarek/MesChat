@@ -1,7 +1,22 @@
 import React, { useEffect, useState, useContext } from "react";
 import Loader from "../components/loader";
+import { axiosHandler, getToken, LastUserChat } from "../helper";
+import { LOGOUT_URL } from "../urls";
 
-const tokenName = "tokenName";
+export const tokenName = "tokenName";
+
+export const logout = (props) => {
+  if (localStorage.getItem(tokenName)) {
+    axiosHandler({
+      method: "get",
+      url: LOGOUT_URL,
+      token: getToken(),
+    });
+  }
+  localStorage.removeItem(tokenName);
+  localStorage.removeItem(LastUserChat);
+  window.location.href = "/login";
+};
 
 const AuthController = (props) => {
   const [checking, setChecking] = useState(true);
