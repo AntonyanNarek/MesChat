@@ -47,7 +47,7 @@ const Register = (props) => {
           setShowPassword={setShowPassword}
         ></AuthForm>
         <div className="switchOption">
-          Уже есть аккаунт? <Link to="/login">Вход</Link>
+          Уже есть аккаунт? <Link to="/login">Авторизоваться</Link>
         </div>
       </div>
     </div>
