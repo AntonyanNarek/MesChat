@@ -28,6 +28,16 @@ const Login = (props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState();
 
+  useEffect(() => {
+    if (checking) {
+      checkAuthState(
+        () => null,
+        () => props.history.push("/"),
+        props
+      );
+    }
+  }, []);
+
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -45,30 +55,31 @@ const Login = (props) => {
 
   return (
     <div className="loginContainer">
-      <div className="inner">
-        <div className="logo">MESCHAT</div>
-        <div className="title">Вход</div>
-        <AuthForm
-          data={loginData}
-          onSubmit={submit}
-          showPassword={showPassword}
-          error={error}
-          setError={setError}
-          setShowPassword={setShowPassword}
-        ></AuthForm>
+      {checking ? (
+        <div className="centerAll">
+          <Loader />
+        </div>
+      ) : (
+        <div className="inner">
+          <div className="logo">MESCHAT</div>
+          <div className="title">Вход</div>
+          <AuthForm
+            login
+            data={loginData}
+            onSubmit={submit}
+            onChange={onChange}
+            showPassword={showPassword}
+            error={error}
+            loading={loading}
+            setError={setError}
+            setShowPassword={setShowPassword}
+          />
 
-        <div className="grid grid-2 grid-gap-2">
-          <div className="socialButton">
-            <img src={twitter} /> <span>Twitter</span>
-          </div>
-          <div className="socialButton">
-            <img src={google} /> <span>Google</span>
+          <div className="switchOption">
+            Не имеете аккаунта? <Link to="/register">Регистрация</Link>
           </div>
         </div>
-        <div className="switchOption">
-          Не имеете аккаунта? <Link to="/register">Регистрация</Link>
-        </div>
-      </div>
+      )}
     </div>
   );
 };
