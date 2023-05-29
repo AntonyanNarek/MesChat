@@ -34,6 +34,7 @@ function UsersList() {
       dispatch({ type: triggerRefreshUserListAction, payload: false });
     }
   }, [triggerRefreshUserList]);
+
   const getUserList = async (append = false) => {
     let extra = "";
     if (search !== "") {
@@ -73,4 +74,75 @@ function UsersList() {
       }
     }
   };
+
+  const setActiveUser = (user_data) => {
+    localStorage.setItem(LastUserChat, JSON.stringify(user_data));
+    dispatch({ type: activeChatUserAction, payload: user_data });
+  };
+
+  const handleScroll = (e) => {
+    if (
+      e.target.scrollTop >=
+      e.target.scrollHeight - (e.target.offsetHeight + 200)
+    ) {
+      if (canGoNext && !goneNext) {
+        getUserList(true);
+      }
+    }
+  };
+
+  return (
+    <div>
+      <SearchDebouce setSearch={setSearch} />
+      <div className="userList" onScroll={handleScroll}>
+        {fetching ? (
+          <center>
+            <Loader />
+          </center>
+        ) : users.length < 1 ? (
+          <div className="noUser">Вам не с кем вести диалог</div>
+        ) : (
+          users.map((item, i) => (
+            <UserMain
+              key={i}
+              name={`${item.first_name || ""} ${item.last_name || ""}`}
+              profilePicture={
+                item.profile_picture ? item.profile_picture.file_upload : ""
+              }
+              caption={item.caption}
+              count={item.message_count}
+              clickable
+              onClick={() => setActiveUser(item)}
+            />
+          ))
+        )}
+      </div>
+    </div>
+  );
 }
+
+let debouceTimeout;
+
+const SearchDebouce = (props) => {
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    clearTimeout(debouceTimeout);
+    debouceTimeout = setTimeout(() => {
+      props.setSearch(search);
+    }, 1000);
+  }, [search]);
+
+  return (
+    <div className="searchCon">
+      <img src={searchImg} />
+      <input
+        placeholder="Поиск пользователей"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+    </div>
+  );
+};
+
+export default UsersList;

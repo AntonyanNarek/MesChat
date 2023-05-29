@@ -7,15 +7,10 @@ import { UserAvatar, ProfileModal } from "./homeComponents";
 import { store } from "../stateManagement/store";
 import Loader from "../components/loader";
 import { logout } from "./authController";
-import { UserMain, ChatBubble } from "./homeComponents";
 import UsersList from "./usersList";
 import ChatInterface from "./chatInterface";
 import menu from "../assets/menu.svg";
 import close from "../assets/close.svg";
-import search from "../assets";
-import smiley from "../assets";
-import favorite from "../assets";
-import send from "../assets";
 
 const Home = (props) => {
   const [showProfile, setShowProfile] = useState(false);
@@ -70,67 +65,90 @@ const Home = (props) => {
 
   return (
     <>
-      <ProfileModal close={() => setShowProfile(false)} visible={showProfile} />
+      <ProfileModal
+        {...props}
+        close={() => setShowProfile(false)}
+        userDetail={userdetail}
+        visible={showProfile}
+        closable={profileClosable}
+        setClosable={() => setProfileClosable(true)}
+      />
+
+      {activeUser && (
+        <ProfileModal
+          {...props}
+          close={() => setShowProfileModal(false)}
+          userDetail={activeChatUser}
+          visible={showProfileModal}
+          closable={true}
+          setClosable={() => null}
+          view
+        />
+      )}
+
       <div className="home-container">
-        <div className="side">
+        <div className="side close" id="sideBar">
           <div className="flex align-center justify-between top">
-            <UserAvatar noStatus isV2 />
-            <img src={settings} onClick={() => setShowProfile(true)} />
+            <UserAvatar
+              noStatus
+              isV2
+              name={`${userdetail.first_name || ""} ${
+                userdetail.last_name || ""
+              }`}
+              profilePicture={
+                userdetail.profile_picture
+                  ? userdetail.profile_picture.file_upload
+                  : ""
+              }
+            />
+            <div>
+              <img
+                src={settings}
+                onClick={() => {
+                  setShowProfile(true);
+                  closeSideBar();
+                }}
+              />
+              <div className="mobile">
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <img
+                  src={close}
+                  alt=""
+                  onClick={toggleSideBar}
+                  style={{ width: 15 }}
+                />
+              </div>
+            </div>
           </div>
 
-          <div className="searchCon">
-            <img src={search} />
-            <input placeholder="Поиск пользователей" />
-          </div>
-
-          <div className="UserList">
-            <UserMain />
-            <UserMain />
-            <UserMain />
-            <UserMain />
-            <UserMain />
-            <UserMain />
-            <UserMain />
-            <UserMain />
-            <UserMain />
-            <UserMain />
-            <UserMain />
-            <UserMain />
-          </div>
+          <UsersList />
           <div className="logout" onClick={() => logout(props)}>
             <img src={logoutPng} />
             <div>logout</div>
           </div>
-
-          <div className="logout">
-            <img src={logout} />
-            <div>logout</div>
-          </div>
         </div>
+        <div className="mobile overlay" onClick={toggleSideBar} />
+
         <div className="main">
-          <div className="flex align-center justify-between heading">
-            <UserAvatar />
-            <div className="flex align-center rightItems">
-              <img src={favorite} />
-              <img src={userDetail} />
+          {activeUser ? (
+            <ChatInterface
+              activeUser={activeUser}
+              loggedUser={userdetail}
+              toggleSideBar={toggleSideBar}
+              showProfileModal={showProfileModal}
+              setShowProfileModal={setShowProfileModal}
+            />
+          ) : (
+            <div>
+              <div className="heading mobile">
+                <div style={{ height: "100%" }} className="flex align-center">
+                  <img src={menu} alt="" onClick={toggleSideBar} />
+                  &nbsp;&nbsp;
+                </div>
+              </div>
+              <div className="noUser">Click on a user to start chatting</div>
             </div>
-          </div>
-          <div className="chatArea">
-            <ChatBubble bubbleType="" />
-            <ChatBubble bubbleType="sender" />
-            <ChatBubble bubbleType="sender" />
-            <ChatBubble bubbleType="" />
-            <ChatBubble bubbleType="" />
-            <ChatBubble bubbleType="sender" />
-            <ChatBubble bubbleType="sender" />
-          </div>
-          <div className="messageZone">
-            <div className="flex align-center justify-between topPart">
-              <img src={smiley} />
-              <img src={send} />
-            </div>
-            <textarea placeholder="Type your message here..." />
-          </div>
+          )}
         </div>
       </div>
     </>
