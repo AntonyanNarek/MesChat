@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { axiosHandler, errorHandler } from "../helper";
 import { LOGIN_URL } from "../urls";
 import Loader from "../components/loader";
-import { tokenName } from "./authController";
+import { checkAuthState, tokenName } from "./authController";
 
 export const loginRequest = async (data, setError, props) => {
   const result = await axiosHandler({
@@ -27,6 +27,7 @@ const Login = (props) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState();
+  const [checking, setChecking] = useState(localStorage.getItem(tokenName));
 
   useEffect(() => {
     if (checking) {

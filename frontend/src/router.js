@@ -9,15 +9,15 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} exact />
-        <Route path="/register" element={<Register />} exact />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route
           path="/"
-          element={(props) => (
-            <AuthController {...props}>
-              <Route path="/" element={<Home />} exact />
+          element={
+            <AuthController>
+              <Route index element={<Home />} />
             </AuthController>
-          )}
+          }
         ></Route>
       </Routes>
     </BrowserRouter>

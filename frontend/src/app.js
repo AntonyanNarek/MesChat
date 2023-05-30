@@ -19,10 +19,10 @@ const SimpleMessage = (props) => {
     <>
       {!showMessage ? (
         <div>
-          <h3>Hello there, Please Enter your name</h3>
+          <h3>Привет, пожалуйста, введи своё имя</h3>
           <form onSubmit={onsubmit}>
             <input value={name} onChange={(e) => setName(e.target.value)} />
-            <button type="submit">submit</button>
+            <button type="submit">отправить</button>
           </form>
         </div>
       ) : (
@@ -82,11 +82,11 @@ const MessageInterface = (props) => {
           onChange={(e) => setMessage(e.target.value)}
         ></textarea>
         <br />
-        <button type="submit">send</button>
+        <button type="submit">отправить</button>
       </form>
       <br />
       {messages.length < 1 ? (
-        <div>No messages yet</div>
+        <div>Здесь нет сообщений</div>
       ) : (
         messages.map((item, index) => {
           return (
