@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'user_control',
     'message_control',
+    'drf_yasg',
     'channels'
 ]
 
