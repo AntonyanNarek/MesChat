@@ -12,13 +12,15 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
-          path="/"
+          path="*"
           element={
             <AuthController>
+            <Routes>
               <Route index element={<Home />} />
+              </Routes>
             </AuthController>
           }
-        ></Route>
+        />
       </Routes>
     </BrowserRouter>
   );

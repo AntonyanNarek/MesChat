@@ -139,7 +139,7 @@ export const ProfileModal = (props) => {
     <div className={`modalContain ${props.visible ? "open" : ""}`}>
       <div className="content-inner">
         <div className="header">
-          <div className="title">{props.view ? "View" : "Update"} Профиль</div>
+          <div className="title">{props.view ? "View" : "Обновить"} Профиль</div>
           {props.closable && <img src={close} onClick={props.close} />}
         </div>
         <form className="content" onSubmit={submit}>

@@ -42,3 +42,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         message = Message.objects.filter(Q(sender_id=user_id, receiver_id=obj.user.id) |
                                          Q(sender_id=obj.user.id, receiver_id=user_id)).distinct()
         return message.count()
+
+class FavoriteSerializer(serializers.Serializer):
+    favorite_id = serializers.IntegerField()

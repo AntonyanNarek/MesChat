@@ -4,13 +4,14 @@ import eyeclose from "../assets/eyeclose.png";
 import google from "../assets/google.png";
 import twitter from "../assets/twitter.png";
 import closeWhite from "../assets/close-white.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { axiosHandler, errorHandler } from "../helper";
 import { LOGIN_URL } from "../urls";
 import Loader from "../components/loader";
 import { checkAuthState, tokenName } from "./authController";
 
-export const loginRequest = async (data, setError, props) => {
+
+export const loginRequest = async (data, setError, navigate) => {
   const result = await axiosHandler({
     method: "post",
     url: LOGIN_URL,
@@ -18,11 +19,12 @@ export const loginRequest = async (data, setError, props) => {
   }).catch((e) => setError(errorHandler(e)));
   if (result) {
     localStorage.setItem(tokenName, JSON.stringify(result.data));
-    props.history.push("/");
+    navigate("/");
   }
 };
 
 const Login = (props) => {
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -33,7 +35,7 @@ const Login = (props) => {
     if (checking) {
       checkAuthState(
         () => null,
-        () => props.history.push("/"),
+        () => navigate("/"),
         props
       );
     }
@@ -43,7 +45,7 @@ const Login = (props) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    await loginRequest(loginData, setError, props);
+    await loginRequest(loginData, setError, navigate);
     setLoading(false);
   };
 

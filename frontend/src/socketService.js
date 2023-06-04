@@ -3,7 +3,7 @@ import openSocket from "socket.io-client";
 import { activeChatAction } from "./stateManagement/actions";
 import { store } from "./stateManagement/store";
 
-const SOCKET_URL = "https://api.meschat.ru:2053";
+const SOCKET_URL = "http://192.168.1.38:9000";
 let socket;
 
 const SocketService = () => {
