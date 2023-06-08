@@ -107,7 +107,7 @@ function UsersList() {
               key={i}
               name={`${item.first_name || ""} ${item.last_name || ""}`}
               profilePicture={
-                item.profile_picture ? item.profile_picture.file_upload : ""
+                item.profile_picture
               }
               caption={item.caption}
               count={item.message_count}

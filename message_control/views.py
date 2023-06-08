@@ -1,14 +1,44 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from .serializers import *
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from Meschat.custom_methods import IsAuthenticatedCustom
 from rest_framework.response import Response
 from  django.db.models import Q
+from django.conf import settings
+import requests
+import json
+
+
+def handleRequest(serializerData):
+    notification = {
+        "message": serializerData.data.get("message"),
+        "from": serializerData.data.get("sender"),
+        "receiver": serializerData.data.get("receiver").get("id")
+    }
+
+    headers = {
+        'Content-Type': 'application/json',
+    }
+    try:
+        requests.post(settings.SOCKET_SERVER, json.dumps(
+            notification), headers=headers)
+    except Exception as e:
+        pass
+    return True
+
+
+class GenericFileUploadView(ModelViewSet):
+    queryset = GenericFileUpload.objects.all()
+    serializer_class = GenericFileUploadSerializer
+
 
 class MessageView(ModelViewSet):
     queryset = Message.objects.select_related("sender", "receiver").prefetch_related("message_attachments")
     serializer_class = MessageSerializer
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedCustom,)
+
 
     def get_queryset(self):
         data = self.request.query_params.dict()
@@ -53,3 +83,12 @@ class MessageView(ModelViewSet):
             return Response(self.serializer_class(message_data).data, status=200)
 
         return Response(serializer.data, status=200)
+
+
+class ReadMultipleMessages(APIView):
+
+    def post(self, request):
+        data = request.data.get("message_ids", None)
+
+        Message.objects.filter(id__in=data).update(is_read=True)
+        return Response("success")

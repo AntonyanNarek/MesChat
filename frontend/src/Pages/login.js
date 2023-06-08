@@ -105,18 +105,7 @@ export const AuthForm = (props) => {
           placeholder="Имя пользователя"
           required
         ></input>
-        {!props.login && (
-          <div className="input-container">
-            <input
-              className="input-field"
-              placeholder="Email"
-              value={props.data.email}
-              name="email"
-              onChange={props.onChange}
-              required
-            />
-          </div>
-        )}
+        
         <div className="input-container">
           <input
             name="password"

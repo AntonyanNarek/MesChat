@@ -7,6 +7,7 @@ import { userDetailAction } from "../stateManagement/actions";
 import { store } from "../stateManagement/store";
 import { PROFILE_URL, FILE_UPLOAD_URL } from "../urls";
 
+
 export const UserMain = (props) => {
   let _count = 0;
   if (props.count) {
@@ -71,8 +72,6 @@ export const ProfileModal = (props) => {
   const [uploading, setUploading] = useState(false);
   const [pp, setPP] = useState(
     props.userDetail.profile_picture
-      ? props.userDetail.profile_picture.file_upload
-      : ""
   );
 
   const { dispatch } = useContext(store);
@@ -113,26 +112,35 @@ export const ProfileModal = (props) => {
       });
       setPP(
         props.userDetail.profile_picture
-          ? props.userDetail.profile_picture.file_upload
-          : ""
       );
     }
-  }, [props.visible]);
+  }, [props.visible]);  
+
+  const [baseImage, setBaseImage] = useState("");
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   const handleOnChange = async (e) => {
-    let data = new FormData();
-    data.append("file_upload", e.target.files[0]);
-    setUploading(true);
-    const result = await axiosHandler({
-      method: "post",
-      url: FILE_UPLOAD_URL,
-      data,
-    }).catch((e) => console.log(e));
-    setUploading(false);
-    if (result) {
-      setPP(result.data.file_upload);
-      setProfileData({ ...profileData, profile_picture_id: result.data.id });
-    }
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    setBaseImage(base64);
+    setProfileData({
+      ...profileData,
+      [e.target.name]: base64,
+    });
   };
 
   return (
@@ -153,6 +161,7 @@ export const ProfileModal = (props) => {
               />
               <input
                 type="file"
+                name="profile_picture"
                 style={{ display: "none" }}
                 ref={(e) => (profileRef = e)}
                 onChange={handleOnChange}

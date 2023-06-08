@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from .models import  UserProfile, CustomUser
+from message_control.serializers import GenericFileUploadSerializer, Base64ImageField
 from  django.db.models import Q
+
+
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -25,7 +28,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     user = CustomUserSerializer(read_only=True)
     user_id = serializers.IntegerField(write_only=True)
-    user_image = serializers.ImageField(required=False)
     message_count = serializers.SerializerMethodField("get_message_count")
 
     class Meta:
@@ -42,6 +44,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         message = Message.objects.filter(Q(sender_id=user_id, receiver_id=obj.user.id) |
                                          Q(sender_id=obj.user.id, receiver_id=user_id)).distinct()
         return message.count()
+
 
 class FavoriteSerializer(serializers.Serializer):
     favorite_id = serializers.IntegerField()

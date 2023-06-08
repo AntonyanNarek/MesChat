@@ -97,8 +97,6 @@ const Home = (props) => {
               }`}
               profilePicture={
                 userdetail.profile_picture
-                  ? userdetail.profile_picture.file_upload
-                  : ""
               }
             />
             <div>
@@ -124,7 +122,7 @@ const Home = (props) => {
           <UsersList />
           <div className="logout" onClick={() => logout(props)}>
             <img src={logoutPng} />
-            <div>logout</div>
+            <div>Выйти</div>
           </div>
         </div>
         <div className="mobile overlay" onClick={toggleSideBar} />

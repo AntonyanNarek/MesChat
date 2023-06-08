@@ -204,8 +204,7 @@ function ChatInterface(props) {
               props.activeUser.last_name || ""
             }`}
             profilePicture={
-              props.activeUser.profile_picture &&
-              props.activeUser.profile_picture.file_upload
+              props.activeUser.profile_picture
             }
             caption={props.activeUser.caption}
           />
@@ -232,7 +231,7 @@ function ChatInterface(props) {
               message={item.message}
               time={
                 item.created_at
-                  ? moment(item.created_at).format("YYYY-MM-DD hh:mm a")
+                  ? moment(item.created_at).format("MM-DD hh:mm a")
                   : ""
               }
               key={key}
