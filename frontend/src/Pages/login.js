@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import eyeopen from "../assets/eyeopen.png";
 import eyeclose from "../assets/eyeclose.png";
-import google from "../assets/google.png";
-import twitter from "../assets/twitter.png";
 import closeWhite from "../assets/close-white.png";
 import { Link, useNavigate} from "react-router-dom";
 import { axiosHandler, errorHandler } from "../helper";

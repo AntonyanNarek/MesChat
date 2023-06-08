@@ -130,7 +130,7 @@ class UserProfileView(ModelViewSet):
 
         if keyword:
             search_fields = (
-                "user__username", "first_name", "last_name", "user__email"
+                "user__username", "first_name", "last_name"
             )
             query = self.get_query(keyword, search_fields)
             try:

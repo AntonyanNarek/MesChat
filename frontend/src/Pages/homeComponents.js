@@ -5,7 +5,7 @@ import Loader from "../components/loader";
 import { axiosHandler, errorHandler, getToken } from "../helper";
 import { userDetailAction } from "../stateManagement/actions";
 import { store } from "../stateManagement/store";
-import { PROFILE_URL, FILE_UPLOAD_URL } from "../urls";
+import { PROFILE_URL} from "../urls";
 
 
 export const UserMain = (props) => {
@@ -147,7 +147,7 @@ export const ProfileModal = (props) => {
     <div className={`modalContain ${props.visible ? "open" : ""}`}>
       <div className="content-inner">
         <div className="header">
-          <div className="title">{props.view ? "View" : "Обновить"} Профиль</div>
+          <div className="title">{props.view ? "Посмотреть" : "Обновить"} профиль</div>
           {props.closable && <img src={close} onClick={props.close} />}
         </div>
         <form className="content" onSubmit={submit}>
