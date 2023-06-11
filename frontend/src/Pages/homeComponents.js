@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import close from "../assets/close.svg";
 import edit from "../assets/edit.png";
+import favoriteActive from "../assets/favActive.png";
 import Loader from "../components/loader";
 import { axiosHandler, errorHandler, getToken } from "../helper";
 import { userDetailAction } from "../stateManagement/actions";
@@ -10,6 +11,7 @@ import { PROFILE_URL} from "../urls";
 
 export const UserMain = (props) => {
   let _count = 0;
+
   if (props.count) {
     if (parseInt(props.count) > 0) {
       _count = props.count;
@@ -21,8 +23,7 @@ export const UserMain = (props) => {
         props.clickable ? "clickable" : ""
       }`}
       onClick={() => props.clickable && props.onClick()}
-    >
-      <UserAvatar
+    ><UserAvatar
         isV2
         name={props.name}
         profilePicture={props.profilePicture}
@@ -46,6 +47,7 @@ export const UserAvatar = (props) => {
         <div className="name">{props.name}</div>
         {!props.noStatus && <div className="subContent">{props.caption}</div>}
       </div>
+      {props.isFavorite == true && <div className="fav"><img src = {favoriteActive}/></div>}
     </div>
   );
 };
@@ -69,7 +71,7 @@ export const ProfileModal = (props) => {
     user_id: props.userDetail.user.id,
   });
   const [submitted, setSubmitted] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [baseImage, setBaseImage] = useState("");
   const [pp, setPP] = useState(
     props.userDetail.profile_picture
   );
@@ -113,10 +115,10 @@ export const ProfileModal = (props) => {
       setPP(
         props.userDetail.profile_picture
       );
+      setBaseImage(pp);
     }
   }, [props.visible]);  
 
-  const [baseImage, setBaseImage] = useState("");
 
   const convertBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -156,7 +158,7 @@ export const ProfileModal = (props) => {
               <div
                 className="imageCon"
                 style={{
-                  backgroundImage: `url(${pp})`,
+                  backgroundImage: `url(${baseImage})`,
                 }}
               />
               <input
@@ -167,15 +169,10 @@ export const ProfileModal = (props) => {
                 onChange={handleOnChange}
               />
               {!props.view && (
-                <>
-                  {uploading ? (
-                    <div className="point">Загрузка...</div>
-                  ) : (
-                    <div className="point" onClick={() => profileRef.click()}>
+                <><div className="point" onClick={() => profileRef.click()}>
                       Сменить аватар
                       <img src={edit} />
                     </div>
-                  )}
                 </>
               )}
             </div>

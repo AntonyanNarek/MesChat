@@ -1,25 +1,20 @@
 import React, { useEffect, useState, useContext } from "react";
 import favorite from "../assets/star.png";
 import favoriteActive from "../assets/favActive.png";
-import smiley from "../assets/smiley.png";
 import send from "../assets/send.png";
 import { ChatBubble, ProfileModal, UserAvatar } from "./homeComponents";
 import settings from "../assets/settings.png";
 import Loader from "../components/loader";
 import { axiosHandler, errorHandler, getToken } from "../helper";
-import {
-  MESSAGE_URL,
-  CHECK_FAVORITE_URL,
-  UPDATE_FAVORITE_URL,
-  READ_MESSAGE_URL,
-} from "../urls";
+import { MESSAGE_URL, CHECK_FAVORITE_URL, UPDATE_FAVORITE_URL, READ_MESSAGE_URL} from "../urls";
 import moment from "moment";
-import {
-  activeChatAction,
-  triggerRefreshUserListAction,
-} from "../stateManagement/actions";
+import { activeChatAction, triggerRefreshUserListAction} from "../stateManagement/actions";
 import { store } from "../stateManagement/store";
 import menu from "../assets/menu.svg";
+
+import { io } from "socket.io-client";
+const SOCKET_URL = "http://localhost:8081";
+const socket = io(SOCKET_URL);
 
 let goneNext = false;
 
@@ -31,6 +26,29 @@ function ChatInterface(props) {
   const [canGoNext, setCanGoNext] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [shouldHandleScroll, setShouldHandleScroll] = useState(false);
+
+  const {
+    state: { userDetail },
+  } = useContext(store);
+  
+  useEffect(() => {
+    socket.on("connection", () => {
+      console.log("connected");
+    });
+
+    socket.on("receive_message", (data) => {
+      if (!userDetail) return;
+      if (userDetail.id !== data.receiver) return;
+      dispatch({ type: activeChatAction, payload: true });
+      console.log("connected");
+      console.log(data);
+    });
+
+    return () => {
+      socket.off("connection");
+      socket.off("receive_message");
+    };
+  }, [socket]);
 
   const {
     state: { activeChat },
@@ -160,11 +178,12 @@ function ChatInterface(props) {
     }).catch((e) => console.log(errorHandler(e)));
 
     if (result) {
+      
       messages[lastIndex] = result.data;
-
       setMessages(messages);
       scrollToBottom();
     }
+    
   };
 
   const handleBubbleType = (item) => {
@@ -231,7 +250,7 @@ function ChatInterface(props) {
               message={item.message}
               time={
                 item.created_at
-                  ? moment(item.created_at).format("MM-DD hh:mm a")
+                  ? moment(item.created_at).format("MM-DD HH:mm")
                   : ""
               }
               key={key}

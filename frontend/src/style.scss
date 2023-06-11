@@ -322,11 +322,23 @@ button {
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-
+    
     @media screen and (max-width: 480px) {
       width: 35px;
       height: 35px;
     }
+  }
+
+  .fav {
+    width: 18px;
+    height: 18px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+  }
+  
+  img {
+    width: 18px;
+    height: 18px;
   }
 
   .name {

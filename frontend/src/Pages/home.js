@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 
 import settings from "../assets/settings.png";
-
 import logoutPng from "../assets/logout.png";
 import { UserAvatar, ProfileModal } from "./homeComponents";
 import { store } from "../stateManagement/store";
@@ -102,12 +101,15 @@ const Home = (props) => {
             <div>
               <img
                 src={settings}
+                style={{marginLeft: '80px'}}
                 onClick={() => {
                   setShowProfile(true);
                   closeSideBar();
                 }}
               />
-              <div className="mobile">
+              
+            </div>
+            <div className="mobile">
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <img
                   src={close}
@@ -116,7 +118,6 @@ const Home = (props) => {
                   style={{ width: 15 }}
                 />
               </div>
-            </div>
           </div>
 
           <UsersList />
