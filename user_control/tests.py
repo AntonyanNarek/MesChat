@@ -110,10 +110,10 @@ class TestUserInfo(APITestCase):
 
         payload = {
             "user_id": self.user.id,
-            "first_name": "Adefemi",
-            "last_name": "Greate",
-            "caption": "Being alive is different from living",
-            "about": "I am a passionation lover of ART, graphics and creation"
+            "first_name": "Artem",
+            "last_name": "Rassman",
+            "caption": "working",
+            "about": "student of VSU"
         }
 
         response = self.client.post(
