@@ -5,7 +5,6 @@ from django.conf import settings
 import random
 import string
 from rest_framework.views import APIView
-from .serializers import *
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
 from rest_framework import status

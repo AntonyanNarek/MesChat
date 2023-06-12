@@ -2,7 +2,6 @@ from rest_framework.test import APITestCase
 from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from six import BytesIO
-from pil import Image
 import json
 
 
