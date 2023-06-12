@@ -20,7 +20,6 @@ class TestFileUpload(APITestCase):
     file_upload_url = "/message/file-upload"
 
     def test_file_upload(self):
-        # definition
 
         avatar = create_image(None, 'avatar.png')
         avatar_file = SimpleUploadedFile('front1.png', avatar.getvalue())
@@ -28,11 +27,9 @@ class TestFileUpload(APITestCase):
             "file_upload": avatar_file
         }
 
-        # processing
         response = self.client.post(self.file_upload_url, data=data)
         result = response.json()
 
-        # assertions
         self.assertEqual(response.status_code, 201)
         self.assertEqual(result["id"], 1)
 
@@ -48,24 +45,20 @@ class TestMessage(APITestCase):
         payload = {
             "username": "sender",
             "password": "sender123",
-            "email": "adefemigreat@yahoo.com"
         }
 
-        # sender
         self.sender = CustomUser.objects._create_user(**payload)
         UserProfile.objects.create(
             first_name="sender", last_name="sender", user=self.sender, caption="sender", about="sender")
 
-        # login
         response = self.client.post(self.login_url, data=payload)
         result = response.json()
 
         self.bearer = {
             'HTTP_AUTHORIZATION': 'Bearer {}'.format(result['access'])}
 
-        # receiver
         self.receiver = CustomUser.objects._create_user(
-            "receiver", "receiver123", email="ade123@yahoo.com")
+            "receiver", "receiver123")
         UserProfile.objects.create(
             first_name="receiver", last_name="receiver", user=self.receiver, caption="receiver", about="receiver")
 
@@ -78,12 +71,10 @@ class TestMessage(APITestCase):
 
         }
 
-        # processing
         response = self.client.post(
             self.message_url, data=payload, **self.bearer)
         result = response.json()
 
-        # assertions
         self.assertEqual(response.status_code, 201)
         self.assertEqual(result["message"], "test message")
         self.assertEqual(result["sender"]["user"]["username"], "sender")
@@ -91,7 +82,6 @@ class TestMessage(APITestCase):
 
     def test_post_with_file(self):
 
-        # create a file
         avatar = create_image(None, 'avatar.png')
         avatar_file = SimpleUploadedFile('front1.png', avatar.getvalue())
         data = {
@@ -116,12 +106,10 @@ class TestMessage(APITestCase):
             ]
         }
 
-        # processing
         response = self.client.post(self.message_url, data=json.dumps(
             payload), content_type='application/json', **self.bearer)
         result = response.json()
 
-        # assertions
         self.assertEqual(response.status_code, 201)
         self.assertEqual(result["message"], "test message")
         self.assertEqual(result["sender"]["user"]["username"], "sender")
@@ -133,32 +121,28 @@ class TestMessage(APITestCase):
 
     def test_update_message(self):
 
-        # create message
         payload = {
             "sender_id": self.sender.id,
             "receiver_id": self.receiver.id,
-            "message": "test message",
+            "message": "тестовое сообщение",
 
         }
         self.client.post(self.message_url, data=payload, **self.bearer)
 
-        # update message
         payload = {
-            "message": "test message updated",
+            "message": "обновление",
             "is_read": True
         }
         response = self.client.patch(
             self.message_url+"/1", data=payload, **self.bearer)
         result = response.json()
 
-        # assertions
         self.assertEqual(response.status_code, 200)
         self.assertEqual(result["message"], "test message updated")
         self.assertEqual(result["is_read"], True)
 
     def test_delete_message(self):
 
-        # create message
         payload = {
             "sender_id": self.sender.id,
             "receiver_id": self.receiver.id,
@@ -170,7 +154,6 @@ class TestMessage(APITestCase):
         response = self.client.delete(
             self.message_url+"/1", data=payload, **self.bearer)
 
-        # assertions
         self.assertEqual(response.status_code, 204)
 
     def test_get_message(self):
