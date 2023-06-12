@@ -8,12 +8,13 @@ from rest_framework.views import APIView
 from .serializers import *
 from django.contrib.auth import authenticate
 from rest_framework.response import Response
+from rest_framework import status
 from .authentication import Authentication
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated
 import re
 from django.db.models import Q, Count, Subquery, OuterRef
 from Meschat.custom_methods import IsAuthenticatedCustom
+from Meschat.swagger_docs import *
 
 
 def get_random(length):
@@ -53,6 +54,7 @@ def decodeJWT(bearer):
 class LoginView(APIView):
     serializer_class = LoginSerializer
 
+    @user_login
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -79,6 +81,7 @@ class LoginView(APIView):
 class RegisterView(APIView):
     serializer_class = RegisterSerializer
 
+    @user_register
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -93,6 +96,7 @@ class RegisterView(APIView):
 class RefreshView(APIView):
     serializer_class = RefreshSerializer
 
+    @user_update
     def post(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -120,6 +124,59 @@ class UserProfileView(ModelViewSet):
     serializer_class = UserProfileSerializer
     permission_classes = (IsAuthenticatedCustom,)
 
+    @user_create
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+    @get_user_list
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    @get_user
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)
+
+    @user_update_profile
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            # If 'prefetch_related' has been applied to a queryset, we need to
+            # forcibly invalidate the prefetch cache on the instance.
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
+    @user_partial_update_profile
+    def partial_update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return self.update(request, *args, **kwargs)
+
+    @delete_user
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @user_queryset
     def get_queryset(self):
         if self.request.method.lower() != "get":
             return self.queryset
@@ -152,6 +209,7 @@ class UserProfileView(ModelViewSet):
         return result
 
     @staticmethod
+    @user_fav_query
     def user_fav_query(user):
         try:
             return user.user_favorites.favorite.filter(id=OuterRef("user_id")).values("pk")
@@ -159,6 +217,7 @@ class UserProfileView(ModelViewSet):
             return []
 
     @staticmethod
+    @get_query
     def get_query(query_string, search_fields):
         query = None
         terms = UserProfileView.normalize_query(query_string)
@@ -186,6 +245,7 @@ class MeView(APIView):
         permission_classes = (IsAuthenticatedCustom,)
         serializer_class = UserProfileSerializer
 
+        @get_me
         def get(self, request):
             data = {}
             try:
@@ -202,6 +262,7 @@ class MeView(APIView):
 class LogoutView(APIView):
         permission_classes = (IsAuthenticatedCustom,)
 
+        @log_out
         def get(self, request):
             user_id = request.user.id
 
@@ -214,6 +275,7 @@ class UpdateFavoriteView(APIView):
     permission_classes = (IsAuthenticatedCustom,)
     serializer_class = FavoriteSerializer
 
+    @update_favorite_users
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -239,6 +301,7 @@ class UpdateFavoriteView(APIView):
 class CheckIsFavoriteView(APIView):
     permission_classes = (IsAuthenticatedCustom,)
 
+    @check_is_favourite
     def get(self, request, *args, **kwargs):
         favorite_id = kwargs.get("favorite_id", None)
         try:

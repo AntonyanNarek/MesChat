@@ -1,7 +1,5 @@
 from rest_framework import serializers
 from .models import  UserProfile, CustomUser
-from message_control.serializers import GenericFileUploadSerializer, Base64ImageField
-from  django.db.models import Q
 
 
 
