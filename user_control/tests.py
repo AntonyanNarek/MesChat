@@ -12,13 +12,10 @@ class TestGenericFunctions(APITestCase):
         rand2 = get_random(10)
         rand3 = get_random(15)
 
-        # check that we are getting a result
         self.assertTrue(rand1)
 
-        # check that rand1 is not equal to rand2
         self.assertNotEqual(rand1, rand2)
 
-        # check that the length of result is what is expected
         self.assertEqual(len(rand1), 10)
         self.assertEqual(len(rand3), 15)
 
@@ -29,14 +26,12 @@ class TestGenericFunctions(APITestCase):
 
         token = get_access_token(payload)
 
-        # check that we obtained a result
         self.assertTrue(token)
 
     def test_get_refresh_token(self):
 
         token = get_refresh_token()
 
-        # check that we obtained a result
         self.assertTrue(token)
 
 
@@ -47,60 +42,47 @@ class TestAuth(APITestCase):
 
     def test_register(self):
         payload = {
-            "username": "adefemigreat",
-            "password": "ade123",
-            "email": "adefemigreat@yahoo.com"
+            "username": "test123",
+            "password": "test123",
         }
 
         response = self.client.post(self.register_url, data=payload)
 
-        # check that we obtain a status of 201
         self.assertEqual(response.status_code, 201)
 
     def test_login(self):
         payload = {
-            "username": "adefemigreat",
-            "password": "ade123",
-            "email": "adefemigreat@yahoo.com"
+            "username": "test123",
+            "password": "test123",
         }
 
-        # register
         self.client.post(self.register_url, data=payload)
 
-        # login
         response = self.client.post(self.login_url, data=payload)
         result = response.json()
 
-        # check that we obtain a status of 200
         self.assertEqual(response.status_code, 200)
 
-        # check that we obtained both the refresh and access token
         self.assertTrue(result["access"])
         self.assertTrue(result["refresh"])
 
     def test_refresh(self):
         payload = {
-            "username": "adefemigreat",
-            "password": "ade123",
-            "email": "adefemigreat@yahoo.com"
+            "username": "test123",
+            "password": "test123",
         }
 
-        # register
         self.client.post(self.register_url, data=payload)
 
-        # login
         response = self.client.post(self.login_url, data=payload)
         refresh = response.json()["refresh"]
 
-        # get refresh
         response = self.client.post(
             self.refresh_url, data={"refresh": refresh})
         result = response.json()
 
-        # check that we obtain a status of 200
         self.assertEqual(response.status_code, 200)
 
-        # check that we obtained both the refresh and access token
         self.assertTrue(result["access"])
         self.assertTrue(result["refresh"])
 
@@ -112,14 +94,12 @@ class TestUserInfo(APITestCase):
 
     def setUp(self):
         payload = {
-            "username": "adefemigreat",
-            "password": "ade123",
-            "email": "adefemigreat@yahoo.com"
+            "username": "test123",
+            "password": "test123",
         }
 
         self.user = CustomUser.objects._create_user(**payload)
 
-        # login
         response = self.client.post(self.login_url, data=payload)
         result = response.json()
 
@@ -141,30 +121,28 @@ class TestUserInfo(APITestCase):
         result = response.json()
 
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(result["first_name"], "Adefemi")
-        self.assertEqual(result["last_name"], "Greate")
-        self.assertEqual(result["user"]["username"], "adefemigreat")
+        self.assertEqual(result["first_name"], "Иван")
+        self.assertEqual(result["last_name"], "Иванов")
+        self.assertEqual(result["user"]["username"], "test123")
 
     def test_post_user_profile_with_profile_picture(self):
 
-        # upload image
         avatar = create_image(None, 'avatar.png')
         avatar_file = SimpleUploadedFile('front.png', avatar.getvalue())
         data = {
             "file_upload": avatar_file
         }
 
-        # processing
         response = self.client.post(
             self.file_upload_url, data=data, **self.bearer)
         result = response.json()
 
         payload = {
             "user_id": self.user.id,
-            "first_name": "Adefemi",
-            "last_name": "Greate",
-            "caption": "Being alive is different from living",
-            "about": "I am a passionation lover of ART, graphics and creation",
+            "first_name": "Иван",
+            "last_name": "Иванов",
+            "caption": "Лучше посрать и опоздать, чем успеть и обосраться",
+            "about": "Всегда опаздываю",
             "profile_picture_id": result["id"]
         }
 
@@ -173,31 +151,29 @@ class TestUserInfo(APITestCase):
         result = response.json()
 
         self.assertEqual(response.status_code, 201)
-        self.assertEqual(result["first_name"], "Adefemi")
-        self.assertEqual(result["last_name"], "Greate")
-        self.assertEqual(result["user"]["username"], "adefemigreat")
+        self.assertEqual(result["first_name"], "Иван")
+        self.assertEqual(result["last_name"], "Иванов")
+        self.assertEqual(result["user"]["username"], "test123")
         self.assertEqual(result["profile_picture"]["id"], 1)
 
     def test_update_user_profile(self):
-        # create profile
 
         payload = {
             "user_id": self.user.id,
-            "first_name": "Adefemi",
-            "last_name": "Greate",
-            "caption": "Being alive is different from living",
-            "about": "I am a passionation lover of ART, graphics and creation"
+            "first_name": "Иван",
+            "last_name": "Иванов",
+            "caption": "Лучше посрать и опоздать, чем успеть и обосраться",
+            "about": "Всегда опаздываю!"
         }
 
         response = self.client.post(
             self.profile_url, data=payload, **self.bearer)
         result = response.json()
 
-        # --- created profile
 
         payload = {
-            "first_name": "Ade",
-            "last_name": "Great",
+            "first_name": "Ваня",
+            "last_name": "Иванов",
         }
 
         response = self.client.patch(
@@ -205,27 +181,26 @@ class TestUserInfo(APITestCase):
         result = response.json()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(result["first_name"], "Ade")
-        self.assertEqual(result["last_name"], "Great")
-        self.assertEqual(result["user"]["username"], "adefemigreat")
+        self.assertEqual(result["first_name"], "Ваня")
+        self.assertEqual(result["last_name"], "Иванов")
+        self.assertEqual(result["user"]["username"], "test123")
 
     def test_user_search(self):
 
-        UserProfile.objects.create(user=self.user, first_name="Adefemi", last_name="oseni",
-                                   caption="live is all about living", about="I'm a youtuber")
+        UserProfile.objects.create(user=self.user, first_name="Иван", last_name="Чепушила",
+                                   caption="Танкситы - молодцы", about="Пенсионер")
 
         user2 = CustomUser.objects._create_user(
-            username="tester", password="tester123", email="adefemi@yahoo.com")
-        UserProfile.objects.create(user=user2, first_name="Vester", last_name="Mango",
-                                   caption="it's all about testing", about="I'm a youtuber")
+            username="tester", password="tester123")
+        UserProfile.objects.create(user=user2, first_name="Серёжа", last_name="Анаконда",
+                                   caption="Ну чё, мужики, по пефку?", about="Пажилой")
 
         user3 = CustomUser.objects._create_user(
-            username="vasman", password="vasman123", email="adefemi@yahoo.com2")
-        UserProfile.objects.create(user=user3, first_name="Adeyemi", last_name="Boseman",
-                                   caption="it's all about testing", about="I'm a youtuber")
+            username="Alex_voin_stalnoy", password="Nikita123")
+        UserProfile.objects.create(user=user3, first_name="Никита", last_name="Литвинков",
+                                   caption="Ну шо, народ, погнали...", about="Шкила, ясно")
 
-        # test keyword = adefemi oseni
-        url = self.profile_url + "?keyword=adefemi oseni"
+        url = self.profile_url + "?keyword=Серёжа Анаконда"
 
         response = self.client.get(url, **self.bearer)
         result = response.json()["results"]
@@ -233,7 +208,6 @@ class TestUserInfo(APITestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(result), 0)
 
-        # test keyword = ade
         url = self.profile_url + "?keyword=ade"
 
         response = self.client.get(url, **self.bearer)
@@ -241,9 +215,8 @@ class TestUserInfo(APITestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(result), 2)
-        self.assertEqual(result[1]["user"]["username"], "vasman")
+        self.assertEqual(result[1]["user"]["username"], "Литвинков")
 
-        # test keyword = vester
         url = self.profile_url + "?keyword=vester"
 
         response = self.client.get(url, **self.bearer)
