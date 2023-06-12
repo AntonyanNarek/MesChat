@@ -120,11 +120,6 @@ export const AuthForm = (props) => {
             onClick={() => props.setShowPassword(!props.showPassword)}
           />
         </div>
-        {props.login && (
-          <div className="flex justify-end">
-            <Link to="/">Забыли пароль</Link>
-          </div>
-        )}
         <button type="submit" disabled={props.loading}>
           {props.loading ? (
             <center>

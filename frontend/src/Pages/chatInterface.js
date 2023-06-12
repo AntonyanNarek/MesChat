@@ -40,8 +40,6 @@ function ChatInterface(props) {
       if (!userDetail) return;
       if (userDetail.id !== data.receiver) return;
       dispatch({ type: activeChatAction, payload: true });
-      console.log("connected");
-      console.log(data);
     });
 
     return () => {
@@ -239,7 +237,6 @@ function ChatInterface(props) {
       <div className="chatArea" id="chatArea" onScroll={handleScroll}>
         {fetching ? (
           <center>
-            <Loader />
           </center>
         ) : messages.length < 1 ? (
           <div className="noUser">У вас пока нет сообщений</div>

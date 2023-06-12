@@ -145,7 +145,7 @@ const Home = (props) => {
                   &nbsp;&nbsp;
                 </div>
               </div>
-              <div className="noUser">Click on a user to start chatting</div>
+              <div className="noUser">Нажмите на пользователя, чтобы начать общаться</div>
             </div>
           )}
         </div>
