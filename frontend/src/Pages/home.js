@@ -1,7 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 
 import settings from "../assets/settings.png";
-
 import logoutPng from "../assets/logout.png";
 import { UserAvatar, ProfileModal } from "./homeComponents";
 import { store } from "../stateManagement/store";
@@ -97,19 +96,20 @@ const Home = (props) => {
               }`}
               profilePicture={
                 userdetail.profile_picture
-                  ? userdetail.profile_picture.file_upload
-                  : ""
               }
             />
             <div>
               <img
                 src={settings}
+                style={{marginLeft: '80px'}}
                 onClick={() => {
                   setShowProfile(true);
                   closeSideBar();
                 }}
               />
-              <div className="mobile">
+              
+            </div>
+            <div className="mobile">
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <img
                   src={close}
@@ -118,13 +118,12 @@ const Home = (props) => {
                   style={{ width: 15 }}
                 />
               </div>
-            </div>
           </div>
 
           <UsersList />
           <div className="logout" onClick={() => logout(props)}>
             <img src={logoutPng} />
-            <div>logout</div>
+            <div>Выйти</div>
           </div>
         </div>
         <div className="mobile overlay" onClick={toggleSideBar} />
@@ -146,7 +145,7 @@ const Home = (props) => {
                   &nbsp;&nbsp;
                 </div>
               </div>
-              <div className="noUser">Click on a user to start chatting</div>
+              <div className="noUser">Нажмите на пользователя, чтобы начать общаться</div>
             </div>
           )}
         </div>

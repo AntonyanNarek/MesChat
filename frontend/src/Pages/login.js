@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import eyeopen from "../assets/eyeopen.png";
 import eyeclose from "../assets/eyeclose.png";
-import google from "../assets/google.png";
-import twitter from "../assets/twitter.png";
 import closeWhite from "../assets/close-white.png";
 import { Link, useNavigate} from "react-router-dom";
 import { axiosHandler, errorHandler } from "../helper";
@@ -105,18 +103,7 @@ export const AuthForm = (props) => {
           placeholder="Имя пользователя"
           required
         ></input>
-        {!props.login && (
-          <div className="input-container">
-            <input
-              className="input-field"
-              placeholder="Email"
-              value={props.data.email}
-              name="email"
-              onChange={props.onChange}
-              required
-            />
-          </div>
-        )}
+        
         <div className="input-container">
           <input
             name="password"
@@ -133,11 +120,6 @@ export const AuthForm = (props) => {
             onClick={() => props.setShowPassword(!props.showPassword)}
           />
         </div>
-        {props.login && (
-          <div className="flex justify-end">
-            <Link to="/">Забыли пароль</Link>
-          </div>
-        )}
         <button type="submit" disabled={props.loading}>
           {props.loading ? (
             <center>

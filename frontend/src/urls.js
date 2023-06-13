@@ -10,4 +10,3 @@ export const UPDATE_FAVORITE_URL = BASE_URL + "user/update-favorite";
 export const LOGOUT_URL = BASE_URL + "user/logout";
 export const MESSAGE_URL = BASE_URL + "message/message";
 export const READ_MESSAGE_URL = BASE_URL + "message/read-messages";
-export const FILE_UPLOAD_URL = BASE_URL + "message/file-upload";

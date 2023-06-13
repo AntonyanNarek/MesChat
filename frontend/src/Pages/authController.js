@@ -7,7 +7,7 @@ import { userDetailAction } from "../stateManagement/actions";
 
 export const tokenName = "tokenName";
 
-export const logout = (props) => {
+export const logout = () => {
   if (localStorage.getItem(tokenName)) {
     axiosHandler({
       method: "get",

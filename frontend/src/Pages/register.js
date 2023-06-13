@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { axiosHandler, errorHandler } from "../helper";
 import { AuthForm, loginRequest } from "./login";
 import { REGISTER_URL } from "../urls";
@@ -9,6 +9,7 @@ const Register = (props) => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState();
+  const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
@@ -19,9 +20,8 @@ const Register = (props) => {
       url: REGISTER_URL,
       data: registerData,
     }).catch((e) => setError(errorHandler(e)));
-
     if (result) {
-      await loginRequest(registerData, setError, props);
+      await loginRequest(registerData, setError, navigate);
     }
     setLoading(false);
   };
@@ -42,6 +42,7 @@ const Register = (props) => {
           data={registerData}
           onSubmit={submit}
           showPassword={showPassword}
+          onChange={onChange}
           error={error}
           setError={setError}
           setShowPassword={setShowPassword}

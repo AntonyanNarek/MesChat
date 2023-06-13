@@ -1,14 +1,17 @@
 import React, { useContext, useState, useEffect } from "react";
 import close from "../assets/close.svg";
 import edit from "../assets/edit.png";
+import favoriteActive from "../assets/favActive.png";
 import Loader from "../components/loader";
 import { axiosHandler, errorHandler, getToken } from "../helper";
 import { userDetailAction } from "../stateManagement/actions";
 import { store } from "../stateManagement/store";
-import { PROFILE_URL, FILE_UPLOAD_URL } from "../urls";
+import { PROFILE_URL} from "../urls";
+
 
 export const UserMain = (props) => {
   let _count = 0;
+
   if (props.count) {
     if (parseInt(props.count) > 0) {
       _count = props.count;
@@ -20,8 +23,7 @@ export const UserMain = (props) => {
         props.clickable ? "clickable" : ""
       }`}
       onClick={() => props.clickable && props.onClick()}
-    >
-      <UserAvatar
+    ><UserAvatar
         isV2
         name={props.name}
         profilePicture={props.profilePicture}
@@ -45,6 +47,7 @@ export const UserAvatar = (props) => {
         <div className="name">{props.name}</div>
         {!props.noStatus && <div className="subContent">{props.caption}</div>}
       </div>
+      {props.isFavorite == true && <div className="fav"><img src = {favoriteActive}/></div>}
     </div>
   );
 };
@@ -68,11 +71,9 @@ export const ProfileModal = (props) => {
     user_id: props.userDetail.user.id,
   });
   const [submitted, setSubmitted] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [baseImage, setBaseImage] = useState("");
   const [pp, setPP] = useState(
     props.userDetail.profile_picture
-      ? props.userDetail.profile_picture.file_upload
-      : ""
   );
 
   const { dispatch } = useContext(store);
@@ -113,33 +114,42 @@ export const ProfileModal = (props) => {
       });
       setPP(
         props.userDetail.profile_picture
-          ? props.userDetail.profile_picture.file_upload
-          : ""
       );
+      setBaseImage(pp);
     }
-  }, [props.visible]);
+  }, [props.visible]);  
+
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
   const handleOnChange = async (e) => {
-    let data = new FormData();
-    data.append("file_upload", e.target.files[0]);
-    setUploading(true);
-    const result = await axiosHandler({
-      method: "post",
-      url: FILE_UPLOAD_URL,
-      data,
-    }).catch((e) => console.log(e));
-    setUploading(false);
-    if (result) {
-      setPP(result.data.file_upload);
-      setProfileData({ ...profileData, profile_picture_id: result.data.id });
-    }
+    const file = e.target.files[0];
+    const base64 = await convertBase64(file);
+    setBaseImage(base64);
+    setProfileData({
+      ...profileData,
+      [e.target.name]: base64,
+    });
   };
 
   return (
     <div className={`modalContain ${props.visible ? "open" : ""}`}>
       <div className="content-inner">
         <div className="header">
-          <div className="title">{props.view ? "View" : "Обновить"} Профиль</div>
+          <div className="title">{props.view ? "Посмотреть" : "Обновить"} профиль</div>
           {props.closable && <img src={close} onClick={props.close} />}
         </div>
         <form className="content" onSubmit={submit}>
@@ -148,25 +158,21 @@ export const ProfileModal = (props) => {
               <div
                 className="imageCon"
                 style={{
-                  backgroundImage: `url(${pp})`,
+                  backgroundImage: `url(${baseImage})`,
                 }}
               />
               <input
                 type="file"
+                name="profile_picture"
                 style={{ display: "none" }}
                 ref={(e) => (profileRef = e)}
                 onChange={handleOnChange}
               />
               {!props.view && (
-                <>
-                  {uploading ? (
-                    <div className="point">Загрузка...</div>
-                  ) : (
-                    <div className="point" onClick={() => profileRef.click()}>
+                <><div className="point" onClick={() => profileRef.click()}>
                       Сменить аватар
                       <img src={edit} />
                     </div>
-                  )}
                 </>
               )}
             </div>

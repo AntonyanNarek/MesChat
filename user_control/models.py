@@ -30,7 +30,6 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(unique=True, max_length=100)
-    email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     is_staff = models.BooleanField(default=False)
@@ -53,7 +52,8 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     about = models.TextField()
-    image = models.ImageField()
+    caption = models.CharField(max_length=250, null=True)
+    profile_picture = models.TextField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -74,7 +74,6 @@ class Favorite(models.Model):
 
     class Meta:
         ordering = ("created_at",)
-
 
 
 class Jwt(models.Model):
