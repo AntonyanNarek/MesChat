@@ -1,0 +1,22 @@
+version: "3.1"
+
+services:
+  db:
+    image: postgres:latest
+    container_name: meschat_db
+    environment:
+      POSTGRES_DB: Meschat
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    env_file:
+      - .env
+  backend:
+    image: meschat_backend:latest
+    container_name: meschat_django
+    depends_on:
+      - db
+    env_file:
+      - .env
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
