@@ -18,12 +18,27 @@
 
 # Инструкция по запуску веб-приложения
 1 способ (без docker): 
+  
 
-Необходимо установить папку с серверной частью кода, открыть командную строку и прописать команду 'python manage.py runserver'.
+  Необходимо установить папку с серверной частью кода, открыть командную строку и прописать команды:
+  
+  pip install -r requirements.txt // Установка библиотек
+  
+  python migrate // Миграции в бд
+  
+  python manage.py runserver
 
-Необходимо установить папку socket_server, открыть командную строки, дойти до расположения папки и прописать команду "node index.j"
+  Необходимо установить папку socket_server, открыть командную строки, дойти до расположения папки и прописать команды:
+  
+  npm install //Установка библиотек из package.json
+  
+  node index.j
 
-Необходимо устновить папку frontend, открыть командную строку, дойти до расположения папки и прописать команду 'npm start'.
+  Необходимо устновить папку frontend, открыть командную строку, дойти до расположения папки и прописать следующие команды:
+  
+  npm install //Установка библиотек из package.json
+  
+  npm start
 
 2 способ (через docker):
 
@@ -41,9 +56,7 @@
 
   sudo docker exec -it meschat_django
   
-  python manage.py makemigrations
-  
-  python manage.py migrates
+  python manage.py migrate
   
 Далее рекомендуется застопить и заново зпустить контейнеры, с помощью: sudo docker compose stop, а далее sudo docker compose start
 
