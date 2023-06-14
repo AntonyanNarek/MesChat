@@ -30,23 +30,23 @@ Password: test
 
  Необходимо установить папку с серверной частью кода, открыть командную строку и прописать команды:
   
-  -pip install -r requirements.txt // Установка библиотек
+  #### -pip install -r requirements.txt // Установка библиотек
   
-  -python migrate // Миграции в бд
+  #### -python migrate // Миграции в бд
   
-  -python manage.py runserver
+  #### -python manage.py runserver
 
  Необходимо установить папку socket_server, открыть командную строки, дойти до расположения папки и прописать команды:
   
-  -npm install //Установка библиотек из package.json
+  #### -npm install //Установка библиотек из package.json
   
-  -node index.j
+  #### -node index.j
 
  Необходимо устновить папку frontend, открыть командную строку, дойти до расположения папки и прописать следующие команды:
   
-  -npm install //Установка библиотек из package.json
+  #### -npm install //Установка библиотек из package.json
   
-  -npm start
+  ####-npm start
 
 ## 2 способ (через docker):
 
@@ -54,23 +54,25 @@ Password: test
 
  Сначала в корневой папке в консоли вписываем:
  
-  -sudo docker build . -t django
+  #### -sudo docker build . -t django
  
  В папке frontend:
  
-  -sudo docker build . -t react
+  #### -sudo docker build . -t react
  
  В папке socket_server:
  
-  -sudo docker build . -t socket
+  #### -sudo docker build . -t socket
  
-Далее возвращаемся в корневую папку и запускаем команду: sudo docker compose up
+Далее возвращаемся в корневую папку и запускаем команду: 
+
+  #### -sudo docker compose up
 
 Далее надо не забыть провести миграции django, так как после предыдущей команды создаётся новая база данных, вам надо вписать следующее:
 
-  -sudo docker exec -it meschat_django
+  #### -sudo docker exec -it meschat_django
   
-  -python manage.py migrate
+  #### -python manage.py migrate
   
 Далее рекомендуется застопить и заново зпустить контейнеры, с помощью: sudo docker compose stop, а далее sudo docker compose start
 
