@@ -46,7 +46,7 @@ Password: test
   
   #### -npm install //Установка библиотек из package.json
   
-  ####-npm start
+  #### -npm start
 
 ## 2 способ (через docker):
 
