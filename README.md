@@ -3,11 +3,12 @@
 
 # Студенты:
 
-[Андрей Островерхов](https://github.com/ostrowerkhov)
+[Нарек Антонян](https://github.com/AntonyanNarek) - Тимлид, backend разработчик
 
-[Артём Рассман](https://github.com/Paccmanio)
+[Андрей Островерхов](https://github.com/ostrowerkhov) - Frontend разработчик
 
-[Нарек Антонян](https://github.com/AntonyanNarek)
+[Артём Рассман](https://github.com/Paccmanio) - Проектировщик бд, тестировщик 
+
 
 # Ссылки
 
@@ -25,3 +26,5 @@
 
 [Курсовая](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/kursovaya_tp.pdf)
 
+# Веб сайт
+[Meschat](http://158.160.96.21:3000/)
