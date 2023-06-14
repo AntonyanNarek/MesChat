@@ -20,3 +20,17 @@ services:
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
+  frontend:
+    image: react
+    container_name: meschat_react
+    command: npm start
+    volumes:
+      - ./frontend:/usr/src/app
+    ports:
+      - "3000:3000"
+  socket:
+    image: socket
+    container_name: meschat_socket
+    command: node index.js --host=0.0.0.0
+    ports:
+      - "8081:8081"
