@@ -39,13 +39,25 @@
 
 # Документация
 
-[Техническое задание](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/%D0%A2%D0%97%20%D0%A2%D0%9F-2-1%20(2).pdf)
+[Техническое задание](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/TZ_TP-2-1_2.pdf)
 
 [Диаграммы](https://vk.com/away.php?utf=1&to=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1AFmhSYDaAcNUoYBtvwD3YUATv9Ftnd_M%3Fusp%3Dshare_link)
 
 [Курсовая](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/kursa4.pdf)
 
 [Презентация](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/Prezentatsia_Meschat%20(1).pdf)
+
+[Сопроводительное письмо](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/Soprovoditelnoe_pismo.pdf)
+
+# Видеофайлы
+
+[Видео с backend](https://drive.google.com/file/d/1k4rR6CF1tUdNrfqLfhnie5L32KmqeHDd/view?usp=drive_link)
+
+[Видео с frontend](https://drive.google.com/file/d/10a6hs56zvMgXwDpMiTQ5nDMiAw8PUHk4/view?usp=drive_link)
+
+[Видео с развертыванием](https://drive.google.com/file/d/1LflaGEkjNXr3tGSNRMu7PmTAIqzLvWRB/view?usp=drive_link)
+
+[Видеопрезентация](https://drive.google.com/file/d/18rb4N7w78XtNhCCbFEmZqezRJwF-iMxX/view?usp=drive_link)
 
 # Инструкция по запуску веб-приложения для разработчиков 
 ## 1 способ (без docker): 
