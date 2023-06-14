@@ -95,4 +95,4 @@
 
 [Диаграммы](https://vk.com/away.php?utf=1&to=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1AFmhSYDaAcNUoYBtvwD3YUATv9Ftnd_M%3Fusp%3Dshare_link)
 
-[Курсовая](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/kursovaya_tp.pdf)
+[Курсовая](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/kursa4.pdf)
