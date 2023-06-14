@@ -12,7 +12,7 @@
 
 [Нарек Антонян](https://github.com/AntonyanNarek) - Тимлид, backend разработчик
 
-[Андрей Островерхов](https://github.com/ostrowerkhov) - Frontend разработчик
+[Андрей Островерхов](https://github.com/ostrowerkhov) - Дихайнер и frontend разработчик
 
 [Артём Рассман](https://github.com/Paccmanio) - Проектировщик бд, тестировщик 
 
