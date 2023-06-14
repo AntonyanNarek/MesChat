@@ -40,7 +40,9 @@
 Далее надо не забыть провести миграции django, так как после предыдущей команды создаётся новая база данных, вам надо вписать следующее:
 
   sudo docker exec -it meschat_django
+  
   python manage.py makemigrations
+  
   python manage.py migrates
   
 Далее рекомендуется застопить и заново зпустить контейнеры, с помощью: sudo docker compose stop, а далее sudo docker compose start
