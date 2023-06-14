@@ -8,7 +8,7 @@
 
 Веб-приложение разрабатывалось на основе архитектурного паттерна MVC. Код находится в текущей дирректории github.
 
-# Веб сайт
+# Веб-сайт
 [Meschat](http://158.160.96.21:3000/)
 
 [Meschat swagger](http://158.160.96.21:8000/swagger/)
@@ -28,6 +28,24 @@
 Учетные данные тестового аккаунта:
 #### Login: test
 #### Password: test
+
+# Ссылки
+
+[Trello](https://trello.com/b/iTJ6RSBX/untitled-board)
+
+[Figma maket](https://www.figma.com/file/VyGW8ECnnXEXN4RI97NOZL/MesChat?node-id=1-18&t=rHojKdiQia62k1aC-0)
+
+[Miro](https://miro.com/app/board/uXjVMbdqiiE=/)
+
+# Документация
+
+[Техническое задание](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/%D0%A2%D0%97%20%D0%A2%D0%9F-2-1%20(2).pdf)
+
+[Диаграммы](https://vk.com/away.php?utf=1&to=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1AFmhSYDaAcNUoYBtvwD3YUATv9Ftnd_M%3Fusp%3Dshare_link)
+
+[Курсовая](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/kursa4.pdf)
+
+[Презентация](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/Prezentatsia_Meschat%20(1).pdf)
 
 # Инструкция по запуску веб-приложения для разработчиков 
 ## 1 способ (без docker): 
@@ -80,21 +98,3 @@
   #### -python manage.py migrate
   
 Далее рекомендуется застопить и заново зпустить контейнеры, с помощью: sudo docker compose stop, а далее sudo docker compose start
-
-# Ссылки
-
-[Trello](https://trello.com/b/iTJ6RSBX/untitled-board)
-
-[Figma maket](https://www.figma.com/file/VyGW8ECnnXEXN4RI97NOZL/MesChat?node-id=1-18&t=rHojKdiQia62k1aC-0)
-
-[Miro](https://miro.com/app/board/uXjVMbdqiiE=/)
-
-# Документация
-
-[Техническое задание](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/%D0%A2%D0%97%20%D0%A2%D0%9F-2-1%20(2).pdf)
-
-[Диаграммы](https://vk.com/away.php?utf=1&to=https%3A%2F%2Fdrive.google.com%2Fdrive%2Ffolders%2F1AFmhSYDaAcNUoYBtvwD3YUATv9Ftnd_M%3Fusp%3Dshare_link)
-
-[Курсовая](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/kursa4.pdf)
-
-[Презентация](https://github.com/AntonyanNarek/MesChat/blob/master/documentation/Prezentatsia_Meschat%20(1).pdf)
